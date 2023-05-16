@@ -8,7 +8,7 @@ class App extends Component {
     filter: '',
   };
 
-  addContact = ({ name, number }) => {
+  addContact = (name, number) => {
     const duplicatedContact = this.state.contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
