@@ -1,15 +1,14 @@
 import { nanoid } from 'nanoid';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { ContactForm, ContactList, Filter } from 'components';
 
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+const App = () => {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
+  const [isFirstRender, setisFirstRender] = useState(true);
 
-  addContact = (name, number) => {
-    const duplicatedContact = this.state.contacts.find(
+  const addContact = (name, number) => {
+    const duplicatedContact = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
 
@@ -23,23 +22,18 @@ class App extends Component {
       number,
     };
 
-    this.setState(({ contacts }) => ({
-      contacts: [newContact, ...contacts],
-    }));
+    setContacts(prev => [newContact, ...prev]);
   };
 
-  deleteContact = contactId => {
-    this.setState(({ contacts }) => ({
-      contacts: contacts.filter(contact => contact.id !== contactId),
-    }));
+  const deleteContact = contactId => {
+    setContacts(prev => prev.filter(contact => contact.id !== contactId));
   };
 
-  changeFilter = e => {
-    this.setState({ filter: e.target.value });
+  const changeFilter = e => {
+    setFilter(e.target.value);
   };
 
-  getVisibleContacts = () => {
-    const { filter, contacts } = this.state;
+  const getVisibleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
 
     return contacts.filter(contact =>
@@ -47,34 +41,34 @@ class App extends Component {
     );
   };
 
-  componentDidMount() {
+  useEffect(() => {
     const parsedContacts = JSON.parse(localStorage.getItem('contacts'));
 
     if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
+      setContacts(parsedContacts);
     }
-  }
+    setisFirstRender(false);
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  useEffect(() => {
+    if (isFirstRender) {
+      return;
     }
-  }
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts, isFirstRender]);
 
-  render() {
-    return (
-      <>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContact} />
-        <h2>Contacts</h2>
-        <Filter value={this.state.filter} onChange={this.changeFilter} />
-        <ContactList
-          contacts={this.getVisibleContacts()}
-          onDeleteContact={this.deleteContact}
-        />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <h1>Phonebook</h1>
+      <ContactForm onSubmit={addContact} />
+      <h2>Contacts</h2>
+      <Filter value={filter} onChange={changeFilter} />
+      <ContactList
+        contacts={getVisibleContacts()}
+        onDeleteContact={deleteContact}
+      />
+    </>
+  );
+};
 
 export default App;
