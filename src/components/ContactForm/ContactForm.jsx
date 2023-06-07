@@ -1,33 +1,18 @@
-import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { Button, Form, Input, Label } from './ContactForm.styled';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/actions';
 
-export const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-      default:
-        return;
-    }
-  };
+export const ContactForm = () => {
+  const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    onSubmit(name, number);
+    dispatch(
+      addContact(e.target.elements.name.value, e.target.elements.number.value)
+    );
 
-    setName('');
-    setNumber('');
+    e.target.reset();
   };
 
   return (
@@ -41,8 +26,6 @@ export const ContactForm = ({ onSubmit }) => {
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
-          value={name}
-          onChange={handleChange}
         />
       </Label>
       <Label htmlFor="number">
@@ -54,8 +37,6 @@ export const ContactForm = ({ onSubmit }) => {
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
-          value={number}
-          onChange={handleChange}
         />
       </Label>
       <Button
@@ -67,8 +48,4 @@ export const ContactForm = ({ onSubmit }) => {
       </Button>
     </Form>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
