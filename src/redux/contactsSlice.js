@@ -8,6 +8,14 @@ const contactsSlice = createSlice({
   reducers: {
     addContact: {
       reducer(state, action) {
+        const duplicatedContact = state.find(
+          contact =>
+            contact.name.toLowerCase() === action.payload.name.toLowerCase()
+        );
+
+        if (duplicatedContact) {
+          return alert(`${duplicatedContact.name} is already in contacts`);
+        }
         return [action.payload, ...state];
       },
       prepare(name, number) {

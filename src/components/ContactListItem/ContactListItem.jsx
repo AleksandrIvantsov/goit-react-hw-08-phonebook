@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Button } from 'components/ContactForm/ContactForm.styled';
 import { Span } from './ContactListItem.styled';
 import { useDispatch } from 'react-redux';
@@ -25,4 +26,8 @@ export const ContactListItem = ({ contact }) => {
       </Button>
     </>
   );
+};
+
+ContactListItem.propTypes = {
+  contact: PropTypes.object.isRequired,
 };
