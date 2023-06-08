@@ -1,7 +1,7 @@
 import { Button } from 'components/ContactForm/ContactForm.styled';
 import { Span } from './ContactListItem.styled';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/actions';
+import { deleteContact } from 'redux/contactsSlice';
 
 export const ContactListItem = ({ contact }) => {
   const dispatch = useDispatch();
