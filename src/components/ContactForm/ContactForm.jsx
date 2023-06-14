@@ -1,16 +1,31 @@
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 import { Button, Form, Input, Label } from './ContactForm.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    dispatch(
-      addContact(e.target.elements.name.value, e.target.elements.number.value)
+    const duplicatedContact = contacts.items.find(
+      contact =>
+        contact.name.toLowerCase() ===
+        e.target.elements.name.value.toLowerCase()
     );
+
+    if (duplicatedContact) {
+      return alert(`${duplicatedContact.name} is already in contacts`);
+    }
+
+    const newContact = {
+      name: e.target.elements.name.value,
+      phone: e.target.elements.number.value,
+    };
+
+    dispatch(addContact(newContact));
 
     e.target.reset();
   };
@@ -41,10 +56,11 @@ export const ContactForm = () => {
       </Label>
       <Button
         type="submit"
+        disabled={contacts.isAdding}
         onMouseDown={e => (e.target.style.backgroundColor = '#3e7fe9')}
         onMouseUp={e => (e.target.style.backgroundColor = 'transparent')}
       >
-        Add contact
+        {contacts.isAdding ? 'Adding...' : 'Add contact'}
       </Button>
     </Form>
   );

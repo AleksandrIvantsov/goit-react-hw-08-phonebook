@@ -6,7 +6,7 @@ import { getContacts, getFilter } from 'redux/selectors';
 const getVisibleContacts = (contacts, filter) => {
   const normalizedFilter = filter.toLowerCase();
 
-  return contacts.filter(contact =>
+  return contacts.items.filter(contact =>
     contact.name.toLowerCase().includes(normalizedFilter)
   );
 };
@@ -18,6 +18,10 @@ export const ContactList = () => {
 
   return (
     <ul>
+      {contacts.isLoading && <div>Loading...</div>}
+      {contacts.error && (
+        <div>Something went wrong. Error message: {contacts.error}</div>
+      )}
       {visibleContacts.map(contact => (
         <Li key={contact.id}>
           <ContactListItem contact={contact} />
