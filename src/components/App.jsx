@@ -1,25 +1,29 @@
-import { ContactForm, ContactList, Filter } from 'components';
-import { useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
+import { useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
-import { fetchContacts } from 'redux/operations';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout';
+import { fetchCurrentUser } from 'redux/operations';
 
-const App = () => {
+const HomePage = lazy(() => import('../pages/Home'));
+const RegisterPage = lazy(() => import('../pages/Register'));
+const LoginPage = lazy(() => import('../pages/Login'));
+const ContactsPage = lazy(() => import('../pages/Contacts'));
+
+export const App = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(fetchCurrentUser());
   }, [dispatch]);
 
   return (
-    <>
-      <Toaster position="top-left" />
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="contacts" element={<ContactsPage />} />
+      </Route>
+    </Routes>
   );
 };
-
-export default App;

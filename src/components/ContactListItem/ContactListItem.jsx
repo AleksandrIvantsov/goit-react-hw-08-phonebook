@@ -16,7 +16,7 @@ export const ContactListItem = ({ contact }) => {
   return (
     <>
       <Span>
-        {contact.name}: {contact.phone}
+        {contact.name}: {contact.number}
       </Span>
       <Button
         type="button"
