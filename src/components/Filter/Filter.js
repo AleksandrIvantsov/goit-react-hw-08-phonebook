@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setFilter } from 'redux/filterSlice';
 import { ContactList } from 'components';
 import { Avatar } from '@mui/material';

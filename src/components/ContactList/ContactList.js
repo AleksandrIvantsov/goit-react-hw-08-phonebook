@@ -5,7 +5,7 @@ import Divider from '@mui/material/Divider';
 import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
 
-import { ContactListItem, Filter } from 'components';
+import { ContactListItem } from 'components';
 import { useSelector } from 'react-redux';
 import { getContacts, getFilter } from 'redux/selectors';
 
