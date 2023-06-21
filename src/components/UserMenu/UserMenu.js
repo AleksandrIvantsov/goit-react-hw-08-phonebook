@@ -1,3 +1,7 @@
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 import { useDispatch } from 'react-redux';
 import css from './UserMenu.module.css';
 import { useSelector } from 'react-redux';
@@ -11,9 +15,14 @@ export const UserMenu = () => {
   return (
     <div className={css.wrapper}>
       <p className={css.username}>Welcome, {userName}</p>
-      <button type="button" onClick={() => dispatch(logOut())}>
+      <Button
+        size="small"
+        variant="outlined"
+        endIcon={<LogoutIcon />}
+        onClick={() => dispatch(logOut())}
+      >
         Logout
-      </button>
+      </Button>
     </div>
   );
 };

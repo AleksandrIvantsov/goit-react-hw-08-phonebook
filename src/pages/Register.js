@@ -1,9 +1,9 @@
-import { RegisterForm } from 'components/RegisterForm/RegisterForm';
+import SignUp from 'components/SignUp/SignUp';
 
 export default function Register() {
   return (
     <div>
-      <RegisterForm />
+      <SignUp />
     </div>
   );
 }
